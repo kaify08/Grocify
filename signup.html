@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Account - Grocify</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .signup-container {
+      max-width: 500px;
+      margin: 8rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-size: 1.4rem;
+      color: #333;
+    }
+    input {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.4rem;
+      margin-top: 0.5rem;
+      border-radius: 0.3rem;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 2rem;
+      padding: 1rem;
+      width: 100%;
+      font-size: 1.6rem;
+      background-color: var(--orange);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #e76b00;
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-container">
+    <h2>Create Your Account</h2>
+    <form id="signup-form">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" required>
+
+      <button type="submit">Create Account</button>
+    </form>
+  </div>
+
+  <script>
+    const signupForm = document.getElementById('signup-form');
+    signupForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      const user = { name, email, password };
+
+      // Save user to localStorage
+      localStorage.setItem('grocify_user', JSON.stringify(user));
+      alert('Account created successfully! You can now log in.');
+
+      // Redirect to home or login
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>

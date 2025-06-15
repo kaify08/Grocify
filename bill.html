@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Order Confirmation - Grocify</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .bill-container {
+      max-width: 800px;
+      margin: 6rem auto;
+      padding: 2rem;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 0.5rem;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+    th, td {
+      padding: 1rem;
+      border-bottom: 1px solid #ccc;
+      text-align: left;
+    }
+    .total {
+      text-align: right;
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="bill-container">
+    <h2>Thank you for your order!</h2>
+    <p><strong>Name:</strong> <span id="name"></span></p>
+    <p><strong>Email:</strong> <span id="email"></span></p>
+    <p><strong>Shipping Address:</strong> <span id="address"></span></p>
+    <p><strong>Payment Method:</strong> <span id="payment"></span></p>
+
+    <h3>Order Summary</h3>
+    <table id="order-table">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Qty</th>
+          <th>Price</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <p class="total">Total: $<span id="total"></span></p>
+    <a href="index.html" class="btn">Back to Home</a>
+  </div>
+
+  <script>
+    const order = JSON.parse(localStorage.getItem('grocify_order'));
+    if (!order) {
+      document.body.innerHTML = "<h2 style='text-align:center; margin-top:5rem;'>No order found!</h2>";
+    } else {
+      document.getElementById('name').textContent = order.name;
+      document.getElementById('email').textContent = order.email;
+      document.getElementById('address').textContent = `${order.address}, ${order.city}, ${order.state} - ${order.zip}`;
+      document.getElementById('payment').textContent = order.payment.toUpperCase();
+      document.getElementById('total').textContent = order.total;
+
+      const tbody = document.querySelector('#order-table tbody');
+      order.cart.forEach(item => {
+        const price = parseFloat(item.price.replace('$', ''));
+        const subtotal = price * item.qty;
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${item.name}</td>
+          <td>${item.qty}</td>
+          <td>${item.price}</td>
+          <td>$${subtotal.toFixed(2)}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+  </script>
+</body>
+</html>
